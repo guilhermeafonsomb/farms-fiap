@@ -1,75 +1,58 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { useState } from "react";
+import {
+  FlatList,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function HomeScreen() {
+  const [inputValue, onChangeInputValue] = useState<string>("");
+
+  const onChangeInput = (text: string) => {
+    onChangeInputValue(text);
+  };
+
+  const handlePress = () => {
+    console.log(inputValue, "inputValue");
+  };
+
+  const users = [
+    { id: "1", name: "Ana Silva", email: "ana.silva@email.com" },
+    { id: "2", name: "Carlos Souza", email: "carlos.souza@email.com" },
+    { id: "3", name: "Marina Costa", email: "marina.costa@email.com" },
+    { id: "4", name: "Ricardo Santos", email: "ricardo.santos@email.com" },
+    { id: "5", name: "Julia Oliveira", email: "julia.oliveira@email.com" },
+    { id: "6", name: "Fernando Lima", email: "fernando.lima@email.com" },
+    { id: "7", name: "Patricia Rocha", email: "patricia.rocha@email.com" },
+    { id: "8", name: "Roberto Alves", email: "roberto.alves@email.com" },
+  ];
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <View>
+      <TextInput
+        className="flex-1 w-full text-black border-b border-accent"
+        placeholder={"placeholder"}
+        placeholderTextColor="#A8B5DB"
+        onChangeText={(text: string) => onChangeInput(text)}
+        value={inputValue}
+      />
+
+      <TouchableOpacity onPress={handlePress}>
+        <Text className="text-black font-semibold text-base">Press</Text>
+      </TouchableOpacity>
+
+      <FlatList
+        data={users}
+        renderItem={({ item }) => (
+          <View>
+            <Text>{item.name}</Text>
+            <Text>{item.email}</Text>
+          </View>
+        )}
+        keyExtractor={(item) => item.id}
+      />
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
