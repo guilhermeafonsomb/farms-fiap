@@ -2,7 +2,7 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "react-native";
 import "react-native-reanimated";
-import TopBar from "./components/TopBar";
+import { TopBar } from "./components/TopBar";
 import "./global.css";
 
 export default function RootLayout() {
