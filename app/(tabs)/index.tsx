@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import ContainerView from "../components/ContainerView";
 
 export default function HomeScreen() {
   const [inputValue, onChangeInputValue] = useState<string>("");
@@ -30,7 +31,7 @@ export default function HomeScreen() {
   ];
 
   return (
-    <View>
+    <ContainerView>
       <TextInput
         className="flex-1 w-full text-black border-b border-accent"
         placeholder={"placeholder"}
@@ -53,6 +54,6 @@ export default function HomeScreen() {
         )}
         keyExtractor={(item) => item.id}
       />
-    </View>
+    </ContainerView>
   );
 }
