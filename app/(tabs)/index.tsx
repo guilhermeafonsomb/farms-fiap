@@ -1,12 +1,8 @@
 import { useState } from "react";
-import {
-  FlatList,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import ContainerView from "../components/ContainerView";
+import { FlatList, Text, View } from "react-native";
+import { Button } from "../components/Button";
+import { ContainerView } from "../components/ContainerView";
+import { Input } from "../components/Input";
 
 export default function HomeScreen() {
   const [inputValue, onChangeInputValue] = useState<string>("");
@@ -32,17 +28,9 @@ export default function HomeScreen() {
 
   return (
     <ContainerView>
-      <TextInput
-        className="flex-1 w-full text-black border-b border-accent"
-        placeholder={"placeholder"}
-        placeholderTextColor="#A8B5DB"
-        onChangeText={(text: string) => onChangeInput(text)}
-        value={inputValue}
-      />
+      <Input placeholder="placeholder" />
 
-      <TouchableOpacity onPress={handlePress}>
-        <Text className="text-black font-semibold text-base">Press</Text>
-      </TouchableOpacity>
+      <Button>Butaaaton</Button>
 
       <FlatList
         data={users}
