@@ -1,11 +1,13 @@
 import { Text } from "react-native";
-import { ContainerView } from "../components/ContainerView";
+import ContainerView from "../components/ContainerView";
 
-export default function Goals() {
+const Goals = () => {
   return (
     <ContainerView>
       <Text>Hello</Text>
       <Text>Metas</Text>
     </ContainerView>
   );
-}
+};
+
+export default Goals;

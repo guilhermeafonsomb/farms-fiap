@@ -1,11 +1,13 @@
 import { Text } from "react-native";
-import { ContainerView } from "../components/ContainerView";
+import ContainerView from "../components/ContainerView";
 
-export default function Production() {
+const Production = () => {
   return (
     <ContainerView>
       <Text>Hello</Text>
       <Text>Produção</Text>
     </ContainerView>
   );
-}
+};
+
+export default Production;

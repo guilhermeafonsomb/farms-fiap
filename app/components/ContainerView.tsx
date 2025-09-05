@@ -6,7 +6,7 @@ interface ContainerViewProps {
   className?: string;
 }
 
-export const ContainerView = ({
+const ContainerView = ({
   children,
   className,
   ...props
@@ -17,3 +17,5 @@ export const ContainerView = ({
     </View>
   );
 };
+
+export default ContainerView;
