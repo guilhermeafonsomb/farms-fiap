@@ -1,47 +1,36 @@
+import clsx from "clsx";
 import { useState } from "react";
-import { FlatList, Text, View } from "react-native";
-import Button from "../components/Button";
+import { Text, TouchableOpacity, View } from "react-native";
 import ContainerView from "../components/ContainerView";
-import { Input } from "../components/Input";
 
 const HomeScreen = () => {
-  const [inputValue, onChangeInputValue] = useState<string>("");
+  const [selectFilterOption, setSelectFilterOption] = useState();
 
-  const onChangeInput = (text: string) => {
-    onChangeInputValue(text);
-  };
-
-  const handlePress = () => {
-    console.log(inputValue, "inputValue");
-  };
-
-  const users = [
-    { id: "1", name: "Ana Silva", email: "ana.silva@email.com" },
-    { id: "2", name: "Carlos Souza", email: "carlos.souza@email.com" },
-    { id: "3", name: "Marina Costa", email: "marina.costa@email.com" },
-    { id: "4", name: "Ricardo Santos", email: "ricardo.santos@email.com" },
-    { id: "5", name: "Julia Oliveira", email: "julia.oliveira@email.com" },
-    { id: "6", name: "Fernando Lima", email: "fernando.lima@email.com" },
-    { id: "7", name: "Patricia Rocha", email: "patricia.rocha@email.com" },
-    { id: "8", name: "Roberto Alves", email: "roberto.alves@email.com" },
-  ];
+  const handleFilterOption = (text: string) => {};
 
   return (
     <ContainerView>
-      <Input placeholder="placeholder" />
+      <View className="flex flex-col gap-6">
+        <Text className="text-2xl text-black font-bold">
+          Dashboard de Produtos
+        </Text>
 
-      <Button>Butaaaton</Button>
+        <Text className="text-lg text-black font-bold">
+          Produtos por maior lucro
+        </Text>
+      </View>
 
-      <FlatList
-        data={users}
-        renderItem={({ item }) => (
-          <View>
-            <Text>{item.name}</Text>
-            <Text>{item.email}</Text>
-          </View>
-        )}
-        keyExtractor={(item) => item.id}
-      />
+      <View className="rounded-lg bg-primary-100 flex flex-row h-14 items-center justify-evenly">
+        <TouchableOpacity className="text-center py-2 px-10 rounded-lg">
+          <Text className={clsx("text-primary-500")}>Semanal</Text>
+        </TouchableOpacity>
+        <TouchableOpacity className={clsx("text-center py-2 px-10 rounded-lg")}>
+          <Text className={clsx("text-primary-500")}>Mensal</Text>
+        </TouchableOpacity>
+        <TouchableOpacity className="text-center py-2 px-10 rounded-lg">
+          <Text className={clsx("text-primary-500")}>Anual</Text>
+        </TouchableOpacity>
+      </View>
     </ContainerView>
   );
 };
