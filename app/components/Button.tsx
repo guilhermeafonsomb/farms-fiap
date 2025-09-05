@@ -8,7 +8,7 @@ interface ButtonOpacityProps extends TouchableOpacityProps {
   children: React.ReactNode;
 }
 
-export const Button = ({
+const Button = ({
   children,
   icon,
   className,
@@ -26,3 +26,5 @@ export const Button = ({
     </TouchableOpacity>
   );
 };
+
+export default Button;

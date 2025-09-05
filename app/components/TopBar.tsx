@@ -8,3 +8,5 @@ export const TopBar = () => {
     </View>
   );
 };
+
+export default TopBar;

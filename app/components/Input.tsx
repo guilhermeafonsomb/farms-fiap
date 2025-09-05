@@ -11,3 +11,5 @@ export const Input = ({ value, placeholder, ...props }: TextInputProps) => {
     />
   );
 };
+
+export default Input;

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { FlatList, Text, View } from "react-native";
-import { Button } from "../components/Button";
-import { ContainerView } from "../components/ContainerView";
+import Button from "../components/Button";
+import ContainerView from "../components/ContainerView";
 import { Input } from "../components/Input";
 
-export default function HomeScreen() {
+const HomeScreen = () => {
   const [inputValue, onChangeInputValue] = useState<string>("");
 
   const onChangeInput = (text: string) => {
@@ -44,4 +44,6 @@ export default function HomeScreen() {
       />
     </ContainerView>
   );
-}
+};
+
+export default HomeScreen;
