@@ -1,13 +1,14 @@
-import clsx from "clsx";
-import { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, View } from "react-native";
 import ContainerView from "../components/ContainerView";
+import HomeFilter from "../components/HomeFilter";
+
+enum FilterOptions {
+  WEEKLY = "WEEKLY",
+  MONTHLY = "MONTHLY",
+  YEARLY = "YEARLY",
+}
 
 const HomeScreen = () => {
-  const [selectFilterOption, setSelectFilterOption] = useState();
-
-  const handleFilterOption = (text: string) => {};
-
   return (
     <ContainerView>
       <View className="flex flex-col gap-6">
@@ -20,17 +21,7 @@ const HomeScreen = () => {
         </Text>
       </View>
 
-      <View className="rounded-lg bg-primary-100 flex flex-row h-14 items-center justify-evenly">
-        <TouchableOpacity className="text-center py-2 px-10 rounded-lg">
-          <Text className={clsx("text-primary-500")}>Semanal</Text>
-        </TouchableOpacity>
-        <TouchableOpacity className={clsx("text-center py-2 px-10 rounded-lg")}>
-          <Text className={clsx("text-primary-500")}>Mensal</Text>
-        </TouchableOpacity>
-        <TouchableOpacity className="text-center py-2 px-10 rounded-lg">
-          <Text className={clsx("text-primary-500")}>Anual</Text>
-        </TouchableOpacity>
-      </View>
+      <HomeFilter />
     </ContainerView>
   );
 };
