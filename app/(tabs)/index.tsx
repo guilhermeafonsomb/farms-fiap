@@ -1,14 +1,42 @@
 import { Text, View } from "react-native";
-import ContainerView from "../components/ContainerView";
-import HomeFilter from "../components/HomeFilter";
+import HomeFilter, { FilterOptions } from "../components/HomeFilter";
 
-enum FilterOptions {
-  WEEKLY = "WEEKLY",
-  MONTHLY = "MONTHLY",
-  YEARLY = "YEARLY",
-}
+import React from "react";
+import ContainerView from "../components/ContainerView";
+import Table from "../components/Table";
+import { useHomeFilterStore } from "../store/homeFilter";
+import { formatCurrency } from "../utils/currencyFormatter";
 
 const HomeScreen = () => {
+  const { selectFilterOption } = useHomeFilterStore();
+
+  const tableHead = ["Produtos", "Lucro", "Vendas", "Período"];
+
+  const tableData = [
+    {
+      product: "Produto A",
+      profit: 15000,
+      sales: "100",
+    },
+    {
+      product: "Produto B",
+      profit: 12000,
+      sales: "200",
+    },
+    {
+      product: "Produto C",
+      profit: 8000,
+      sales: "300",
+    },
+  ];
+
+  const tableDataFormatted = tableData.map((item) => [
+    item.product,
+    formatCurrency(item.profit),
+    item.sales,
+    FilterOptions[selectFilterOption],
+  ]);
+
   return (
     <ContainerView>
       <View className="flex flex-col gap-6">
@@ -22,6 +50,7 @@ const HomeScreen = () => {
       </View>
 
       <HomeFilter />
+      <Table tableHead={tableHead} tableRows={tableDataFormatted} />
     </ContainerView>
   );
 };

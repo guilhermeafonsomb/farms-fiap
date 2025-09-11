@@ -4,6 +4,12 @@ import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useHomeFilterStore } from "../store/homeFilter";
 
+export enum FilterOptions {
+  WEEKLY = "Semanal",
+  MONTHLY = "Mensal",
+  YEARLY = "Anual",
+}
+
 const HomeFilter = () => {
   const { selectFilterOption, setSelectFilterOption } = useHomeFilterStore();
 
@@ -21,7 +27,7 @@ const HomeFilter = () => {
             selectFilterOption === "WEEKLY" ? "text-black" : "text-primary-500"
           )}
         >
-          Semanal
+          {FilterOptions.WEEKLY}
         </Text>
       </TouchableOpacity>
 
@@ -37,7 +43,7 @@ const HomeFilter = () => {
             selectFilterOption === "MONTHLY" ? "text-black" : "text-primary-500"
           )}
         >
-          Mensal
+          {FilterOptions.MONTHLY}
         </Text>
       </TouchableOpacity>
 
@@ -53,7 +59,7 @@ const HomeFilter = () => {
             selectFilterOption === "YEARLY" ? "text-black" : "text-primary-500"
           )}
         >
-          Anual
+          {FilterOptions.YEARLY}
         </Text>
       </TouchableOpacity>
     </View>
