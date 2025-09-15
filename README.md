@@ -1,202 +1,56 @@
-# Farms FIAP App
+# Welcome to your Expo app 👋
 
-This repository contains the Farms FIAP mobile application built with Expo and Firebase. The app allows users to manage farm-related data with a seamless offline-first experience, leveraging Firebase services and local emulators for development.
+Install expo go in your smartphone.
 
----
+## Get started
 
-## Project Overview
+1. Install dependencies
 
-Farms FIAP is a cross-platform mobile app built using Expo and Firebase. It uses Firebase Authentication, Firestore, and Cloud Functions to provide a robust backend. For local development, Firebase emulators are used to simulate backend services, enabling faster iteration and offline testing.
+   ```bash
+   npm install
+   ```
 
----
+2. Start the app
 
-## Prerequisites
+   ```bash
+   npx expo start
+   ```
 
-Before getting started, ensure you have the following installed:
+   or
 
-- [Node.js](https://nodejs.org/) (v16 or newer recommended)
-- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
-- [Expo CLI](https://docs.expo.dev/workflow/expo-cli/) (`npm install -g expo-cli`)
-- [Firebase CLI](https://firebase.google.com/docs/cli) (`npm install -g firebase-tools`)
-- Java Development Kit (JDK) 11 or newer (for Android builds)
-- Android Studio (for Android emulator)
-- Xcode (for iOS simulator, macOS only)
+   ```bash
+   npx expo start --tunnel
+   ```
 
----
+   In the output, you'll find options to open the app in a
 
-## Installation
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-### 1. Clone the repository
+You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-```bash
-git clone https://github.com/your-org/farms-fiap.git
-cd farms-fiap
-```
+## Get a fresh project
 
-### 2. Install dependencies for the Expo app
-
-```bash
-npm install
-```
-
-or
+When you're ready, run:
 
 ```bash
-yarn install
+npm run reset-project
 ```
 
-### 3. Install dependencies for Firebase Functions
+This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-Navigate to the functions directory and install dependencies:
+## Learn more
 
-```bash
-cd functions
-npm install
-```
+To learn more about developing your project with Expo, look at the following resources:
 
-or
+- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
+- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
 
-```bash
-yarn install
-```
+## Join the community
 
-```bash
-npm run build
-```
+Join our community of developers creating universal apps.
 
-Return to the root directory when done:
-
-```bash
-cd ..
-```
-
----
-
-## Firebase Emulators Setup with Seed Data
-
-The project uses Firebase emulators for Authentication, Firestore, and Functions to run locally.
-
-### 1. Start Firebase Emulators
-
-Run the following command from the project root:
-
-```bash
-npm run emulators:start
-```
-
-### 2. Seeded Test User Credentials
-
-You can use the following test user to log in during development:
-
-- **Email:** teste@fiap.com
-- **Password:** 123456!
-
----
-
-## Running the App
-
-### iOS
-
-1. Start the Firebase emulators as described above.
-2. In a new terminal, start the Expo development server:
-
-```bash
-npm start
-```
-
-or
-
-```bash
-yarn start
-```
-
-3. Press `i` to open the iOS simulator or scan the QR code with Expo Go on your iOS device.
-
-### Android
-
-1. Start the Firebase emulators.
-2. Start the Expo development server.
-3. Press `a` to open the Android emulator or scan the QR code with Expo Go on your Android device.
-
----
-
-## Firebase Configuration Details
-
-### 1. GoogleService Files
-
-- **iOS:** Place `GoogleService-Info.plist` in the `ios/` directory.
-- **Android:** Place `google-services.json` in the `android/app/` directory.
-
-These files are required for Firebase SDK initialization on each platform.
-
-### 2. Android Gradle Plugins
-
-Ensure the following plugins are added in your `android/build.gradle`:
-
-```gradle
-buildscript {
-    dependencies {
-        classpath 'com.google.gms:google-services:4.3.15'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.5'
-    }
-}
-```
-
-And apply the plugins in `android/app/build.gradle`:
-
-```gradle
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
-```
-
-### 3. Android Keystore
-
-For signing your Android app, configure your keystore as follows:
-
-- Place your keystore file (e.g., `my-release-key.keystore`) in the `android/app/` directory.
-- Update `android/gradle.properties` with your keystore credentials:
-
-```properties
-MYAPP_UPLOAD_STORE_FILE=my-release-key.keystore
-MYAPP_UPLOAD_KEY_ALIAS=my-key-alias
-MYAPP_UPLOAD_STORE_PASSWORD=your-store-password
-MYAPP_UPLOAD_KEY_PASSWORD=your-key-password
-```
-
----
-
-## How the App Connects to Firebase Emulators
-
-The app dynamically detects the environment and connects to the Firebase emulators when running locally. This is configured in the app’s Firebase initialization code:
-
-- Authentication emulator on `localhost:9099`
-- Firestore emulator on `localhost:8080`
-- Functions emulator on `localhost:5001`
-
-When running in production, the app connects to the live Firebase services.
-
----
-
-## Troubleshooting
-
-- **Emulator connection issues:** Ensure the Firebase emulators are running before starting the app.
-- **Port conflicts:** Confirm ports 9099, 8080, and 5001 are free.
-- **Android build errors:** Verify JDK version and Android Studio installation.
-- **iOS build errors:** Ensure Xcode command line tools are installed and updated.
-- **Expo issues:** Clear cache with `expo start -c`.
-
----
-
-## Project Folder Structure
-
-```
-/app                # Expo app source code
-/functions          # Firebase Cloud Functions source code
-/seed               # Firebase emulator seed data
-/android            # Android native project files
-/ios                # iOS native project files
-.gitignore          # Git ignore rules
-package.json        # App dependencies and scripts
-firebase.json       # Firebase emulator configuration
-README.md           # This documentation
-```
+- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
+- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.

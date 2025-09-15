@@ -9,16 +9,14 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.farms-fiap"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logo.png",
         "backgroundColor": "#EBF2E8"
       },
-      "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.farmsfiap"
+      "edgeToEdgeEnabled": true
     },
     "web": {
       "bundler": "metro",
