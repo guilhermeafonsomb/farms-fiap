@@ -2,11 +2,8 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "react-native";
 import "react-native-reanimated";
-import { ensureFirebase } from "../lib/firebase";
 import { TopBar } from "./components/TopBar";
 import "./global.css";
-
-ensureFirebase();
 
 const RootLayout = () => {
   const [loaded] = useFonts({
