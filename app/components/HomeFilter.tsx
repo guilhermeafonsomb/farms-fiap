@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { clsx } from "clsx";
 import React from "react";
 
 import { Text, TouchableOpacity, View } from "react-native";
@@ -18,7 +18,7 @@ const HomeFilter = () => {
       <TouchableOpacity
         onPress={() => setSelectFilterOption("WEEKLY")}
         className={clsx(
-          "text-center py-2 px-9 rounded-lg ",
+          "text-center py-2 px-4 sm:px-9 rounded-lg ",
           selectFilterOption === "WEEKLY" && "bg-white"
         )}
       >
@@ -34,7 +34,7 @@ const HomeFilter = () => {
       <TouchableOpacity
         onPress={() => setSelectFilterOption("MONTHLY")}
         className={clsx(
-          "text-center py-2 px-10 rounded-lg ",
+          "text-center py-2 px-4 sm:px-10 rounded-lg ",
           selectFilterOption === "MONTHLY" && "bg-white"
         )}
       >
@@ -50,7 +50,7 @@ const HomeFilter = () => {
       <TouchableOpacity
         onPress={() => setSelectFilterOption("YEARLY")}
         className={clsx(
-          "text-center py-2 px-10 rounded-lg ",
+          "text-center py-2 px-4 sm:px-10 rounded-lg ",
           selectFilterOption === "YEARLY" && "bg-white"
         )}
       >

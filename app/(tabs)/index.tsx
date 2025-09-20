@@ -1,4 +1,5 @@
 import { Text, View } from "react-native";
+import ProductBarChart from "../components/BarChart";
 import ContainerView from "../components/ContainerView";
 import HomeFilter, { FilterOptions } from "../components/HomeFilter";
 import Table from "../components/Table";
@@ -26,6 +27,11 @@ const HomeScreen = () => {
       profit: 8000,
       sales: "300",
     },
+    {
+      product: "Produto D",
+      profit: 10000,
+      sales: "1500",
+    },
   ];
 
   const tableDataFormatted = tableData.map((item) => [
@@ -41,6 +47,13 @@ const HomeScreen = () => {
         <Text className="text-2xl text-black font-bold">
           Dashboard de Produtos
         </Text>
+
+        <View style={{ marginTop: 20 }}>
+          <ProductBarChart
+            labels={tableData.map((item) => item.product)}
+            values={tableData.map((item) => item.profit)}
+          />
+        </View>
 
         <Text className="text-lg text-black font-bold">
           Produtos por maior lucro
