@@ -1,9 +1,12 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "react-native";
 import "react-native-reanimated";
 import { TopBar } from "./components/TopBar";
 import "./global.css";
+
+const queryClient = new QueryClient();
 
 const RootLayout = () => {
   const [loaded] = useFonts({
@@ -15,7 +18,7 @@ const RootLayout = () => {
   }
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <TopBar />
       <Stack>
         <StatusBar hidden={true} />
@@ -23,7 +26,7 @@ const RootLayout = () => {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
-    </>
+    </QueryClientProvider>
   );
 };
 
