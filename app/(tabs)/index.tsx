@@ -1,45 +1,49 @@
 import { Text, View } from "react-native";
 import ProductBarChart from "../components/BarChart";
 import ContainerView from "../components/ContainerView";
-import HomeFilter, { FilterOptions } from "../components/HomeFilter";
+import HomeFilter from "../components/HomeFilter";
 import Table from "../components/Table";
+import { useProductsByPeriod } from "../hooks/useProductsByPeriod";
 import { useHomeFilterStore } from "../store/homeFilter";
 import { formatCurrency } from "../utils/currencyFormatter";
 
 const HomeScreen = () => {
   const { selectFilterOption } = useHomeFilterStore();
 
+  const periodoMap: Record<string, "Semanal" | "Mensal" | "Anual"> = {
+    WEEKLY: "Semanal",
+    MONTHLY: "Mensal",
+    YEARLY: "Anual",
+  };
+
+  const periodo = periodoMap[selectFilterOption] ?? "Mensal";
+
+  const { data: produtos, isLoading, isError } = useProductsByPeriod(periodo);
+
+  const tableDataFormatted = produtos?.map((item) => [
+    item.nome,
+    formatCurrency(item.lucro),
+    item.vendas.toString(),
+    item.periodo,
+  ]);
+
   const tableHead = ["Produtos", "Lucro", "Vendas", "Período"];
 
-  const tableData = [
-    {
-      product: "Produto A",
-      profit: 15000,
-      sales: "100",
-    },
-    {
-      product: "Produto B",
-      profit: 12000,
-      sales: "200",
-    },
-    {
-      product: "Produto C",
-      profit: 8000,
-      sales: "300",
-    },
-    {
-      product: "Produto D",
-      profit: 10000,
-      sales: "1500",
-    },
-  ];
+  if (isLoading) {
+    return (
+      <ContainerView>
+        <Text>Carregando...</Text>
+      </ContainerView>
+    );
+  }
 
-  const tableDataFormatted = tableData.map((item) => [
-    item.product,
-    formatCurrency(item.profit),
-    item.sales,
-    FilterOptions[selectFilterOption],
-  ]);
+  if (isError) {
+    return (
+      <ContainerView>
+        <Text>Ocorreu um erro ao buscar os dados.</Text>
+      </ContainerView>
+    );
+  }
 
   return (
     <ContainerView>
@@ -49,10 +53,12 @@ const HomeScreen = () => {
         </Text>
 
         <View style={{ marginTop: 20 }}>
-          <ProductBarChart
-            labels={tableData.map((item) => item.product)}
-            values={tableData.map((item) => item.profit)}
-          />
+          {produtos && produtos.length > 0 && (
+            <ProductBarChart
+              labels={produtos.map((item) => item.nome)}
+              values={produtos.map((item) => item.lucro)}
+            />
+          )}
         </View>
 
         <Text className="text-lg text-black font-bold">
@@ -61,7 +67,9 @@ const HomeScreen = () => {
       </View>
 
       <HomeFilter />
-      <Table tableHead={tableHead} tableRows={tableDataFormatted} />
+      {tableDataFormatted && tableDataFormatted.length > 0 && (
+        <Table tableHead={tableHead} tableRows={tableDataFormatted} />
+      )}
     </ContainerView>
   );
 };
