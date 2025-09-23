@@ -1,4 +1,5 @@
 import { Text, View } from "react-native";
+import ProductBarChart from "../components/BarChart";
 import ContainerView from "../components/ContainerView";
 import HomeFilter from "../components/HomeFilter";
 import Table from "../components/Table";
@@ -50,6 +51,16 @@ const HomeScreen = () => {
         <Text className="text-2xl text-black font-bold">
           Dashboard de Produtos
         </Text>
+
+        <View style={{ marginTop: 20 }}>
+          {produtos && produtos.length > 0 && (
+            <ProductBarChart
+              labels={produtos.map((item) => item.nome)}
+              values={produtos.map((item) => item.lucro)}
+            />
+          )}
+        </View>
+
         <Text className="text-lg text-black font-bold">
           Produtos por maior lucro
         </Text>
