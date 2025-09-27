@@ -1,36 +1,75 @@
-import React, { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import React from "react";
 import { Alert, Text, View } from "react-native";
 import ContainerView from "../components/ContainerView";
 import NewProduct, { Product } from "../components/NewProduct";
 import RegisterSale, { Sale } from "../components/RegisterSale";
 import UpdateStock from "../components/UpdateStock";
+import { useAddProduct } from "../hooks/useAddProducts";
+import { useProducts } from "../hooks/useProducts";
+import { addSoldProduct, updateProductQuantity } from "../services/produtos";
 
 function Sales() {
-  const [products, setProducts] = useState<Product[]>([
-    { name: "Maçã", quantity: 100, type: "Fruta" },
-    { name: "Tomate", quantity: 50, type: "Legume" },
-  ]);
+  const queryClient = useQueryClient();
+  const { data: products } = useProducts();
+  const { mutate: addProduct } = useAddProduct();
 
-  const [sales, setSales] = useState<Sale[]>([]);
+  const handleAddProduct = async (product: Product) => {
+    try {
+      addProduct({
+        name: product.name,
+        quantity: product.quantity,
+        type: product.type,
+      });
 
-  const addProduct = (product: Product) => {
-    setProducts((prev) => [...prev, product]);
-    Alert.alert("Sucesso", "Produto adicionado!");
+      Alert.alert("Sucesso", "Produto adicionado!");
+    } catch (error) {
+      Alert.alert("Erro", "Não foi possível adicionar o produto.");
+      console.error("Erro ao adicionar produto:", error);
+    }
   };
 
-  const updateStock = (name: string, delta: number) => {
-    setProducts((prev) =>
-      prev.map((p) =>
-        p.name === name ? { ...p, quantity: p.quantity + delta } : p
-      )
-    );
-    Alert.alert("Sucesso", "Estoque atualizado!");
+  const updateStock = async (name: string, delta: number, showAlert = true) => {
+    try {
+      const product = products?.find((p) => p.name === name);
+
+      if (!product) {
+        Alert.alert("Erro", "Produto não encontrado.");
+        return;
+      }
+
+      const newQuantity = product.quantity + delta;
+
+      await updateProductQuantity({
+        productName: name,
+        newQuantity: newQuantity,
+      });
+
+      await queryClient.invalidateQueries({ queryKey: ["produtos"] });
+
+      if (showAlert) {
+        Alert.alert("Sucesso", "Estoque atualizado!");
+      }
+    } catch (error) {
+      Alert.alert("Erro", "Não foi possível atualizar o estoque.");
+      console.error("Erro ao atualizar estoque:", error);
+    }
   };
 
-  const registerSale = (sale: Sale) => {
-    setSales((prev) => [...prev, sale]);
-    updateStock(sale.product, -sale.quantity);
-    Alert.alert("Sucesso", "Venda registrada!");
+  const registerSale = async (sale: Sale) => {
+    try {
+      await addSoldProduct({
+        productName: sale.product,
+        quantity: sale.quantity,
+        price: sale.price,
+        periodo: sale.periodo,
+      });
+      await updateStock(sale.product, -sale.quantity, false);
+      Alert.alert("Sucesso", "Venda registrada!");
+    } catch (error) {
+      Alert.alert("Erro", "Não foi possível registrar a venda.");
+      console.error("Erro ao registrar venda:", error);
+    }
   };
 
   return (
@@ -38,7 +77,7 @@ function Sales() {
       <View className="max-w-5xl mx-auto w-full">
         <Text className="text-2xl font-bold mb-6">Estoque e Vendas</Text>
 
-        <NewProduct onAdd={addProduct} />
+        <NewProduct onAdd={handleAddProduct} />
         <UpdateStock onUpdate={updateStock} />
         <RegisterSale onRegister={registerSale} products={products} />
 
@@ -47,7 +86,7 @@ function Sales() {
           <Text className="text-lg font-semibold mb-3">
             Produtos em Estoque
           </Text>
-          {products.map((p, i) => (
+          {products?.map((p, i) => (
             <View
               key={i}
               className="shadow-md shadow-primary-100 p-3 rounded-lg mb-2 bg-gray-50"
