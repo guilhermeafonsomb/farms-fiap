@@ -75,7 +75,9 @@ function Sales() {
   return (
     <ContainerView>
       <View className="max-w-5xl mx-auto w-full">
-        <Text className="text-2xl font-bold mb-6">Estoque e Vendas</Text>
+        <Text className="text-black text-2xl font-bold mb-6">
+          Estoque e Vendas
+        </Text>
 
         <NewProduct onAdd={handleAddProduct} />
         <UpdateStock onUpdate={updateStock} />
