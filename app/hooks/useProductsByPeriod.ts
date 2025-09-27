@@ -1,13 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchProductsByPeriod } from "../services/produtos";
 
-type Period = "Semanal" | "Mensal" | "Anual";
-
-export const useProductsByPeriod = (period: Period) => {
-  return useQuery({
-    queryKey: ["products", period],
+export function useProductsByPeriod(period: "Semanal" | "Mensal" | "Anual") {
+  const queryClient = useQueryClient();
+  const query = useQuery({
+    queryKey: ["products-sold", period],
     queryFn: () => fetchProductsByPeriod(period!),
-    refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 5, // cache 5min
   });
-};
+
+  const invalidate = () => {
+    queryClient.invalidateQueries({ queryKey: ["products-sold", period] });
+  };
+
+  return { ...query, invalidate };
+}
