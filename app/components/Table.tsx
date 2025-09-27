@@ -30,7 +30,7 @@ export const Table = ({ tableHead, tableRows }: TableProps) => {
 const styles = StyleSheet.create({
   tableBorder: {
     borderWidth: 1,
-    borderColor: "#D6E5D1",
+    borderColor: "#d6e5d1",
     borderRadius: 8,
   },
   head: {
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     fontSize: 12,
     padding: 8,
-    color: "#121C0D",
+    color: "#61944F",
   },
 });
 
