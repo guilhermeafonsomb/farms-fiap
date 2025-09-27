@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import * as Progress from "react-native-progress";
 import ContainerView from "../components/ContainerView";
-import { LabeledInput } from "../components/LabeledInput";
+import LabeledInput from "../components/LabeledInput";
 import { Table } from "../components/Table";
 
 function Goals() {

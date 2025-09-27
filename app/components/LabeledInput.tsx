@@ -9,7 +9,7 @@ type Props = {
   placeholder?: string;
 };
 
-export function LabeledInput({
+function LabeledInput({
   label,
   value,
   onChangeText,
@@ -50,3 +50,5 @@ export function LabeledInput({
     </View>
   );
 }
+
+export default LabeledInput;
