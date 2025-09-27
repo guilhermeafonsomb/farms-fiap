@@ -1,3 +1,4 @@
+import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { Product } from "./NewProduct";
@@ -6,12 +7,12 @@ export type Sale = {
   product: string;
   quantity: number;
   price: number;
-  date: string;
+  periodo: "Semanal" | "Mensal" | "Anual";
 };
 
 type RegisterSaleProps = {
   onRegister: (sale: Sale) => void;
-  products: Product[];
+  products?: Product[];
 };
 
 const RegisterSale: React.FC<RegisterSaleProps> = ({
@@ -21,10 +22,12 @@ const RegisterSale: React.FC<RegisterSaleProps> = ({
   const [product, setProduct] = useState("");
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState("");
-  const [date, setDate] = useState("");
+  const [periodo, setPeriodo] = useState<"Semanal" | "Mensal" | "Anual">(
+    "Semanal"
+  );
 
   const handleRegister = () => {
-    if (!product || !quantity || !price || !date) {
+    if (!product || !quantity || !price || !periodo) {
       Alert.alert("Erro", "Preencha todos os campos");
       return;
     }
@@ -32,12 +35,12 @@ const RegisterSale: React.FC<RegisterSaleProps> = ({
       product,
       quantity: Number(quantity),
       price: Number(price),
-      date,
+      periodo,
     });
     setProduct("");
     setQuantity("");
     setPrice("");
-    setDate("");
+    setPeriodo("Semanal");
   };
 
   return (
@@ -63,12 +66,17 @@ const RegisterSale: React.FC<RegisterSaleProps> = ({
         value={price}
         onChangeText={setPrice}
       />
-      <TextInput
+      <Picker
         className="rounded-lg p-3 mb-3 bg-primary-100 green-50"
-        placeholder="Data (YYYY-MM-DD)"
-        value={date}
-        onChangeText={setDate}
-      />
+        selectedValue={periodo}
+        onValueChange={(value: string) =>
+          setPeriodo(value as "Semanal" | "Mensal" | "Anual")
+        }
+      >
+        <Picker.Item label="Semanal" value="Semanal" />
+        <Picker.Item label="Mensal" value="Mensal" />
+        <Picker.Item label="Anual" value="Anual" />
+      </Picker>
       <TouchableOpacity
         className="bg-[#61944F] py-3 rounded-lg"
         onPress={handleRegister}
