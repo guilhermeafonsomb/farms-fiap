@@ -2,50 +2,25 @@ import { Apple, Carrot, Leaf } from "lucide-react-native";
 import React, { useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import ContainerView from "../components/ContainerView";
-
-type Food = {
-  id: string;
-  name: string;
-  quantity: number;
-  icon: React.ReactNode;
-  status: "aguardando" | "producao" | "colhido";
-};
+import { useProducts } from "../hooks/useProducts";
 
 export default function ProductionScreen() {
-  const [tab, setTab] = useState<"aguardando" | "producao" | "colhido">(
-    "aguardando"
+  const [tab, setTab] = useState<"aguardando" | "produção" | "colhido">(
+    "produção"
   );
 
-  const foods: Food[] = [
-    {
-      id: "1",
-      name: "Alface",
-      quantity: 5,
-      icon: <Leaf size={20} color="#121C0D" />,
-      status: "aguardando",
-    },
-    {
-      id: "2",
-      name: "Maçã",
-      quantity: 10,
-      icon: <Apple size={20} color="#121C0D" />,
-      status: "colhido",
-    },
-    {
-      id: "3",
-      name: "Cenoura",
-      quantity: 12,
-      icon: <Carrot size={20} color="#121C0D" />,
-      status: "producao",
-    },
-    {
-      id: "4",
-      name: "Pepino",
-      quantity: 10,
-      icon: <Carrot size={20} color="#121C0D" />,
-      status: "aguardando",
-    },
-  ];
+  const { data: products } = useProducts();
+
+  const filteredProducts = products?.filter(
+    (product) => product.status === tab
+  );
+
+  const iconMap = {
+    Verdura: <Leaf size={20} color="#121C0D" />,
+    Legume: <Carrot size={20} color="#121C0D" />,
+    Fruta: <Apple size={20} color="#121C0D" />,
+    Outro: <Leaf size={20} color="#121C0D" />,
+  };
 
   return (
     <ContainerView>
@@ -55,6 +30,21 @@ export default function ProductionScreen() {
         </Text>
 
         <View className="flex-row mb-3 border-b border-gray-200 h-14">
+          <TouchableOpacity
+            className={`mr-6 pb-2 border-b-[3px] ${
+              tab === "produção" ? " border-black" : "border-gray-200"
+            }`}
+            onPress={() => setTab("produção")}
+          >
+            <Text
+              className={`font-bold my-auto ${
+                tab === "produção" ? "text-black" : "text-primary-500"
+              }`}
+            >
+              Em Produção
+            </Text>
+          </TouchableOpacity>
+
           <TouchableOpacity
             className={`mr-6 pb-2 border-b-[3px] ${
               tab === "aguardando" ? " border-black" : "border-gray-200"
@@ -67,21 +57,6 @@ export default function ProductionScreen() {
               }`}
             >
               Aguardando
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            className={`mr-6 pb-2 border-b-[3px] ${
-              tab === "producao" ? " border-black" : "border-gray-200"
-            }`}
-            onPress={() => setTab("producao")}
-          >
-            <Text
-              className={`font-bold my-auto ${
-                tab === "producao" ? "text-black" : "text-primary-500"
-              }`}
-            >
-              Em Produção
             </Text>
           </TouchableOpacity>
 
@@ -102,12 +77,13 @@ export default function ProductionScreen() {
         </View>
 
         <FlatList
-          data={foods.filter((food) => food.status === tab)}
+          data={filteredProducts}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View className="flex-row items-center rounded-lg py-3 px-4 mb-3">
               <View className="bg-primary-100 p-3 rounded-lg mr-3">
-                {item.icon}
+                {iconMap?.[item.type as keyof typeof iconMap] ||
+                  iconMap["Outro"]}
               </View>
               <View>
                 <Text className="font-medium text-base text-black">

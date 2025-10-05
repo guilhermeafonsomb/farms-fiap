@@ -10,6 +10,7 @@ export type Produto = Models.Row & {
   nome: string;
   quantidade: number;
   categoria: string;
+  status: "aguardando" | "produção" | "colhido";
 };
 
 export type ProdutoSale = Models.Row & {
@@ -40,6 +41,7 @@ export async function fetchProducts() {
       name: doc.nome,
       quantity: doc.quantidade,
       type: doc.categoria,
+      status: doc.status,
     }));
   } catch (error) {
     console.error("Erro ao buscar produtos do estoque:", error);
@@ -68,15 +70,46 @@ export const addProduto = async ({
   type: string;
 }) => {
   try {
-    const response = await tablesDB.createRow({
+    // Busca se já existe um produto com esse nome no estoque
+    const response = await tablesDB.listRows<Produto>({
       databaseId: DATABASE_ID,
       tableId: COLLECTION_ID_ESTOQUE,
-      rowId: id.unique(),
-      data: { nome: name, quantidade: quantity, categoria: type },
+      queries: [Query.equal("nome", name)],
     });
-    return response;
+
+    const existingProduct = response.rows[0];
+
+    if (existingProduct) {
+      const updateResponse = await tablesDB.updateRow({
+        databaseId: DATABASE_ID,
+        tableId: COLLECTION_ID_ESTOQUE,
+        rowId: existingProduct.$id,
+        data: {
+          quantidade: existingProduct.quantidade + quantity,
+          categoria: type,
+          status: "aguardando",
+        },
+      });
+
+      return updateResponse;
+    } else {
+      // Produto não existe → cria novo com status inicial
+      const createResponse = await tablesDB.createRow({
+        databaseId: DATABASE_ID,
+        tableId: COLLECTION_ID_ESTOQUE,
+        rowId: id.unique(),
+        data: {
+          nome: name,
+          quantidade: quantity,
+          categoria: type,
+          status: "produção",
+        },
+      });
+
+      return createResponse;
+    }
   } catch (error) {
-    console.error("Erro ao criar product:", error);
+    console.error("Erro ao criar/atualizar produto:", error);
     throw error;
   }
 };
@@ -84,9 +117,11 @@ export const addProduto = async ({
 export const updateProductQuantity = async ({
   productName,
   newQuantity,
+  isSale,
 }: {
   productName: string;
   newQuantity: number;
+  isSale: boolean;
 }) => {
   try {
     // Busca o product pelo nome
@@ -107,7 +142,10 @@ export const updateProductQuantity = async ({
       databaseId: DATABASE_ID,
       tableId: COLLECTION_ID_ESTOQUE,
       rowId: product.$id,
-      data: { quantidade: newQuantity },
+      data: {
+        quantidade: newQuantity,
+        status: isSale ? "colhido" : "aguardando",
+      },
     });
 
     return updateResponse;

@@ -29,7 +29,12 @@ function Sales() {
     }
   };
 
-  const updateStock = async (name: string, delta: number, showAlert = true) => {
+  const updateStock = async (
+    name: string,
+    delta: number,
+    showAlert = true,
+    isSale = false
+  ) => {
     try {
       const product = products?.find((p) => p.name === name);
 
@@ -43,6 +48,7 @@ function Sales() {
       await updateProductQuantity({
         productName: name,
         newQuantity: newQuantity,
+        isSale,
       });
 
       await queryClient.invalidateQueries({ queryKey: ["produtos"] });
@@ -64,7 +70,7 @@ function Sales() {
         price: sale.price,
         periodo: sale.periodo,
       });
-      await updateStock(sale.product, -sale.quantity, false);
+      await updateStock(sale.product, -sale.quantity, false, true);
       Alert.alert("Sucesso", "Venda registrada!");
     } catch (error) {
       Alert.alert("Erro", "Não foi possível registrar a venda.");
