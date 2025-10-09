@@ -20,6 +20,7 @@ export type ProdutoSale = Models.Row & {
   categoria: string;
   lucro: number;
   vendas: number;
+  meta: number;
 };
 
 export type ProdutoByPeriod = Models.Row & {
@@ -27,6 +28,14 @@ export type ProdutoByPeriod = Models.Row & {
   lucro: number;
   vendas: number;
   periodo: "Semanal" | "Mensal" | "Anual";
+};
+
+export type ProdutoAllPeriod = Models.Row & {
+  nome: string;
+  lucro: number;
+  vendas: number;
+  periodo: "Semanal" | "Mensal" | "Anual";
+  meta: number;
 };
 
 export async function fetchProducts() {
@@ -48,6 +57,14 @@ export async function fetchProducts() {
     throw error;
   }
 }
+
+export const fetchProductsAllPeriod = async (): Promise<ProdutoAllPeriod[]> => {
+  const response = await tablesDB.listRows<ProdutoAllPeriod>({
+    databaseId: DATABASE_ID,
+    tableId: COLLECTION_ID_PRODUTOS,
+  });
+  return response.rows;
+};
 
 export const fetchProductsByPeriod = async (
   period: "Semanal" | "Mensal" | "Anual"
@@ -160,11 +177,13 @@ export async function addSoldProduct({
   quantity,
   price,
   periodo,
+  meta,
 }: {
   productName: string;
   quantity: number;
   price: number;
   periodo: "Semanal" | "Mensal" | "Anual";
+  meta: number;
 }) {
   const { rows } = await tablesDB.listRows<ProdutoSale>({
     databaseId: DATABASE_ID,
@@ -188,6 +207,7 @@ export async function addSoldProduct({
         vendas: quantity,
         lucro,
         periodo,
+        meta,
       },
     });
   } else {
