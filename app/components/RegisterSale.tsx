@@ -8,6 +8,7 @@ export type Sale = {
   quantity: number;
   price: number;
   periodo: "Semanal" | "Mensal" | "Anual";
+  meta: number;
 };
 
 type RegisterSaleProps = {
@@ -25,9 +26,9 @@ const RegisterSale: React.FC<RegisterSaleProps> = ({
   const [periodo, setPeriodo] = useState<"Semanal" | "Mensal" | "Anual">(
     "Semanal"
   );
-
+  const [meta, setMeta] = useState(0);
   const handleRegister = () => {
-    if (!product || !quantity || !price || !periodo) {
+    if (!product || !quantity || !price || !periodo || !meta || meta === 0) {
       Alert.alert("Erro", "Preencha todos os campos");
       return;
     }
@@ -36,11 +37,13 @@ const RegisterSale: React.FC<RegisterSaleProps> = ({
       quantity: Number(quantity),
       price: Number(price),
       periodo,
+      meta,
     });
     setProduct("");
     setQuantity("");
     setPrice("");
     setPeriodo("Semanal");
+    setMeta(0);
   };
 
   return (
@@ -77,6 +80,12 @@ const RegisterSale: React.FC<RegisterSaleProps> = ({
         <Picker.Item label="Mensal" value="Mensal" />
         <Picker.Item label="Anual" value="Anual" />
       </Picker>
+      <TextInput
+        className="rounded-lg p-3 mb-3 bg-primary-100 green-50"
+        placeholder="Meta"
+        keyboardType="numeric"
+        onChangeText={(text) => setMeta(Number(text))}
+      />
       <TouchableOpacity
         className="bg-[#61944F] py-3 rounded-lg"
         onPress={handleRegister}

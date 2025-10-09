@@ -69,6 +69,7 @@ function Sales() {
         quantity: sale.quantity,
         price: sale.price,
         periodo: sale.periodo,
+        meta: sale.meta,
       });
       await updateStock(sale.product, -sale.quantity, false, true);
       Alert.alert("Sucesso", "Venda registrada!");
