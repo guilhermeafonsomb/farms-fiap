@@ -1,6 +1,7 @@
 # Welcome to your Expo app 👋
 
 Autenticação:
+
 Email: teste@exemplo.com
 Senha: usuario_teste
 
