@@ -1,5 +1,9 @@
 # Welcome to your Expo app 👋
 
+Autenticação:
+Email: teste@exemplo.com
+Senha: usuario_teste
+
 Install expo go in your smartphone.
 
 ## Get started
