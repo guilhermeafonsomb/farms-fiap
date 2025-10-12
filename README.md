@@ -3,6 +3,7 @@
 Autenticação:
 
 Email: teste@exemplo.com
+
 Senha: usuario_teste
 
 Install expo go in your smartphone.
